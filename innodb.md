@@ -1,62 +1,30 @@
 # Note
 
-
-
 MySQL 是单进程多线程
-
-
 
 MySQL 存储引擎基于表，不是数据库
 
-
-
 OLTP（Online Transaction Processing）在线事务处理（如 MySQL）
-
-
 
 MySQL 最重要的特征：插件式存储引擎
 
-
-
 MySQL 有很多种存储引擎（可自己开发），特性各异，有的支持全文检索，有的支持事务等
-
-
 
 InnoDB 支持 OLTP，促使 MySQL 的商业化蓬勃发展
 
-
-
 # ACID 事务
-
-
-
 atomicity：原子性，要么全部执行，要么全部不执行。
 
-
-
 consistency：一致性，事务执行必须保证系统状态一致，如转账，这边减10块，那边就加10块。
-
-
-
 isolation：隔离性，事务与事务的执行是隔离的（比如串行化，就保证事务是隔离执行的）
-
-
 
 durability：持久性，事务对数据的更改持久保存，不会被无故回滚
 
-
-
 # 缓冲池
-
-
 
 ### LRU （Least Recent Used最少最近使用）更新算法
 
-
-
 基本原理：频繁使用的放在前部，最少使用的放在尾部，清理时先清理尾部
-
-
 
 ### InnoDB LRU 改进
 
@@ -70,15 +38,9 @@ durability：持久性，事务对数据的更改持久保存，不会被无故�
 
 1. 扫描大量更新缓存，但是扫描时数据往往只用一次，结果真正 hot 的数据被挤出缓存
 
-
-
 ### midpoint 策略
 
-
-
-!\[\]\(/assets/innodb-buffer-pool-list.png\)
-
-
+![](/assets/innodb-buffer-pool-list.png\)
 
 LRU 列表被 midpoint 分成两部分，前半部分是 young 列表，后半部分是 old 列表。midpoint 的位置默认是当前列表的5/8处。
 
@@ -91,8 +53,6 @@ LRU 列表被 midpoint 分成两部分，前半部分是 young 列表，后半�
 * 真正使用一个 old 区域的页时才发生 old-young 的转换
 
 * 如果是预读的，则没有这步操作，也既预读的页一直在 old，不会影响 young
-
-
 
 ##### midpoint + innodb_old_blocks_time 解决扫描对缓存的影响
 
@@ -112,15 +72,9 @@ LRU 列表被 midpoint 分成两部分，前半部分是 young 列表，后半�
 
 * 若时间还没到，这个页就在 old 区里被清理了
 
-
-
-> innodb\_old\_blocks\_time有效地缓解了扫描对缓存的影响，因为一个页必须在 old 区里待足够的时间，才能移动到 young 里，而扫描时页很快就会被踢出 old，因此可以减少 scan 对缓存的影响。
-
-
+> innodb_old_blocks_time有效地缓解了扫描对缓存的影响，因为一个页必须在 old 区里待足够的时间，才能移动到 young 里，而扫描时页很快就会被踢出 old，因此可以减少 scan 对缓存的影响。
 
 # 伙伴算法
-
-
 
 存储空间管理算法，目的是减少碎片
 
