@@ -3,7 +3,7 @@ insert有两种情况：
 * 顺序 insert
 * 随机 insert
 
-Insert Buffer 为了提升顺序 insert 的性能。
+Insert Buffer 为了提升`随机` insert 的性能。
 
 # InnoDB 中的顺序 insert
 > insert分两步，先插入聚集索引，再插入 secondary index
@@ -16,3 +16,4 @@ InnoDB 中主键是行唯一标识符。
 ### 非聚集的辅助索引，且非 unique
 1. 若主键是递增的，那在主索引上还是顺序 insert
 2. 非唯一的辅助索引 insert，因为是B+树，在叶节点上的插入是`随机的`
+
