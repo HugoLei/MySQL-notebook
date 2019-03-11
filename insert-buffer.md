@@ -35,4 +35,22 @@ InnoDB 中主键是行唯一标识符。
 unique 索引，因为要判断唯一性，这个判断过程肯定要随机读 B+ 树的节点。所以这种情况使用 Insert Buffer 无意义。
 
 # 实现原理
+使用 B+树缓存，一棵全局 Insert Buffer B+ 树。
+非叶节点：
+* 表 ID + 辅助索引页的 offset
+
+叶节点：
+* 表 ID + 辅助索引页的 offset
+* 插入时的顺序
+* 要放到辅助索引上的内容
+
+Insert Buffer Bitmap：
+* 标记某个辅助索引的页是否有insert buffer
+* 标记某个辅助索引的页的剩余空间
+
+merge：
+* 辅助索引页被读取到缓冲池（如 select 时读取该页，检查 bitmap，看是否有 insert buffer 需要合并，合并时将多个操作一次 merge）
+* bitmap 追踪到该页已无足够可用空间（强制读取对应的页，进行 merge）
+* Master Thread 周期性 merge（但非全量 merge）
+
 
