@@ -1,4 +1,4 @@
-# Insert Buffer 为了解决什么问题？
+# Insert Buffer 为了解决什么问题？（优化随机写）
 insert有两种情况：
 * 顺序 insert
 * 随机 insert
@@ -33,3 +33,6 @@ InnoDB 中主键是行唯一标识符。
 
 ### 辅助索引：unique
 unique 索引，因为要判断唯一性，这个判断过程肯定要随机读 B+ 树的节点。所以这种情况使用 Insert Buffer 无意义。
+
+# 实现原理
+
