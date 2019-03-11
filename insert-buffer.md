@@ -22,10 +22,14 @@ InnoDB 中主键是行唯一标识符。
 # Insert Buffer
 * 辅助索引
 * not unique
+
 上述条件下的 insert/update，写逻辑如下：
+
 1. 若对应的索引节点在缓存中，则直接写入
 2. 若不在缓存中，则先放入 Insert Buffer 中。（而不是去从 disk 读对应的页）
 3. 按照一定规则 merge InsertBuffer + 索引节点（通常是将多个 insert/update合并在一个操作中）
 
-### 辅助索引：unique
+> 因为是先写在 Insert Buffer 中，因此存在丢失的风险
 
+### 辅助索引：unique
+unique 索引，因为要判断唯一性，这个判断过程肯定要随机读 B+ 树的节点。所以这种情况使用 Insert Buffer 无意义。
