@@ -44,7 +44,7 @@ unique 索引，因为要判断唯一性，这个判断过程肯定要随机读 
 * 插入时的顺序
 * 要放到辅助索引上的内容
 
-Insert Buffer Bitmap：
+【优化】Insert Buffer Bitmap：
 * 标记某个辅助索引的页是否有insert buffer
 * 标记某个辅助索引的页的剩余空间
 
