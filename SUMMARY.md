@@ -7,4 +7,6 @@
 * [Change Buffer](change-buffer.md)
 * [两次写](liang-ci-xie.md)
 * [文件操作](wen-jian-cao-zuo.md)
+* 逻辑日志 & 物理日志
+* [Write-Ahead Logging](write-ahead-logging.md)
 
