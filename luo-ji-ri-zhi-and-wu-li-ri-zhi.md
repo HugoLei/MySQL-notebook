@@ -47,10 +47,16 @@ Innodb日志方式
 采用逻辑与物理相结合 物理到Page Page内部是逻辑的（space id, page no, operation code, data）
 虽然采取此方式可以解决部分执行问题 但是数据一致性还是无法解决（因为对于page内的信息使用逻辑日志进行记录，所以当出现坏块时，并不能解决）
 
+
+
+```
 日志格式：
 Page 42: update(6,'Kemera'=>'camera')
 Page // 物理页地址
 update // 逻辑操作
+```
+
+
 
 
 
